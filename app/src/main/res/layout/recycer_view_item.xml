@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data><!--Блок разметки data определяет свойство viewModel для класса привязки (автоматически создаваемый класс для этого макета - RecycerViewItemBinding) вместе с геттером и сеттером. В классе привязки свойство viewModel может использоваться в выражениях привязки-->
+        <variable
+            name="viewModel"
+            type="com.bignerdranch.android.currencyconverter.ValuteItemViewModel" />
+    </data>
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/recyclerCurName"
+            android:text="@{viewModel.currencyName}"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:textAlignment="textStart"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/recyclerCurCode"
+            android:text="@{viewModel.currencyCode}"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/recyclerCheck_mark"
+            android:layout_width="25sp"
+            android:layout_height="30dp"
+            android:layout_weight="0.05"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_check" />
+    </LinearLayout>
+</layout>

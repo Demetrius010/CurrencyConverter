@@ -1,6 +1,6 @@
-package com.bignerdranch.android.currencyconverter.API
+package com.bignerdranch.android.currencyconverter.models.api
 
-import com.bignerdranch.android.currencyconverter.ValCurs
+import com.bignerdranch.android.currencyconverter.models.ValCurs
 import retrofit2.Call
 import retrofit2.http.GET
 

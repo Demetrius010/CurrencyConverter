@@ -1,17 +1,18 @@
-package com.bignerdranch.android.currencyconverter
+package com.bignerdranch.android.currencyconverter.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.bignerdranch.android.currencyconverter.models.DataRepository
+import com.bignerdranch.android.currencyconverter.models.Valute
 import kotlin.random.Random
 
 class CurrencyExchangeViewModel : ViewModel() {
-    private val dataRepository = DataRepository.get()// ссылка на репозиторий
+    private val dataRepository = DataRepository.get()
     val isLeft
         get() = dataRepository.isLeft
     var firstCur: Valute
     var secondCur: Valute
     init {
-        Log.d("TAG", "INIT")
         var i: Int
         var j: Int
         do {
@@ -20,6 +21,8 @@ class CurrencyExchangeViewModel : ViewModel() {
         }while (i==j)
         firstCur = dataRepository.currencyData[i]
         secondCur = dataRepository.currencyData[j]
+
+        Log.d("CurrencyExchangeViewModel", "CurrencyExchangeViewModel INIT")
     }
 
     fun setNewValute(){
@@ -33,8 +36,8 @@ class CurrencyExchangeViewModel : ViewModel() {
     }
 
     fun setChangingValute(oldValute: Valute, isLeft: Boolean){
-        dataRepository.oldValute = oldValute
-        dataRepository.newValute = oldValute
+        dataRepository.oldValute = oldValute //старое значение сохраняме с целью показать на против него checked в окне выбора валют
+        dataRepository.newValute = oldValute//в поле для нового значения сохраняем старое на случай если пользователь выбрав валюту на экране выбора передумает и нажмет вернуться назад
         dataRepository.isLeft = isLeft
     }
 
@@ -47,6 +50,4 @@ class CurrencyExchangeViewModel : ViewModel() {
         firstCur = secondCur
         secondCur = tempCur
     }
-
-
 }

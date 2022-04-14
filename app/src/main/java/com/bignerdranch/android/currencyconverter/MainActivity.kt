@@ -1,16 +1,16 @@
 package com.bignerdranch.android.currencyconverter
 
-import android.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.bignerdranch.android.currencyconverter.views.LoadCurrencyDataFragment
 
 class MainActivity : AppCompatActivity() {//LoadCurrencyDataFragment.Callbacks
     override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-
+    Log.d("MainActivity", "MainActivity init")
     //Почему фрагмент может уже находиться в списке? Вызов MainActivity.onCreate (Bundle?) может быть выполнен в ответ на воссоздание объекта MainActivity после его уничтожения из-за поворота устройства или освобождения памяти. При уничтожении activity ее экземпляр FragmentManager сохраняет список фрагментов. При воссоздании activity новый экземпляр FragmentManager загружает список и воссоздает хранящиеся в нем фрагменты, чтобы все работало как прежде.
     val currentFragment =
         supportFragmentManager.findFragmentById(R.id.fragment_container)//Доступ к менеджеру фрагментов осуществляется с помощью свойства supportFragmentManager.

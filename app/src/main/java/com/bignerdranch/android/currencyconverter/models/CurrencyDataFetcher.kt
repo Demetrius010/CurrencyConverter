@@ -1,10 +1,9 @@
-package com.bignerdranch.android.currencyconverter
+package com.bignerdranch.android.currencyconverter.models
 
-import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bignerdranch.android.currencyconverter.API.CbrApi
+import com.bignerdranch.android.currencyconverter.models.api.CbrApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,9 +11,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 private const val TAG = "CurrencyDataFetcher"
-private const val BASE_URL = "http://www.cbr.ru/scripts/"
+private const val BASE_URL = "https://www.cbr.ru/scripts/"
 
-class CurrencyDataFetcher { //MY DATA REPOSETORY CLASSS
+class CurrencyDataFetcher { //MY DATA REPOSITORY CLASS
     private val cbrApi: CbrApi
 
     init {
@@ -28,9 +27,9 @@ class CurrencyDataFetcher { //MY DATA REPOSETORY CLASSS
 //вы приписываете значение responseLiveData пустому объекту MutableLiveData. Затем вы ставите в очередь вебзапрос для получения страницы и возвращаете responseLiveData (до завершения запроса). После успешного завершения результат становится публичным путем установки значения responseLiveData.value. Таким образом, другие компоненты, такие как Fragment, могут наблюдать объект LiveData, возвращенный из fetchContents(), чтобы в конечном итоге получить результаты веб-запроса.
     fun fetchData(): LiveData<List<Valute>>{//getting data using Retrofit
         val responseLiveData: MutableLiveData<List<Valute>> = MutableLiveData()//LiveData — это класс — контейнер данных из Jetpack библиотеки lifecycle-extensions. Вы можете настроить activity или фрагмент на наблюдение за LiveData, и в этом случае ваша activity или фрагмент будет уведомлен в основном потоке, когда они будут готовы.
-        cbrApi.getValCurs().enqueue(object: Callback<ValCurs> {//asynch call //getValCurs возвращает объект Call, представляющий собой веб-запрос. Для выполнения веб-запроса, содержащегося в объекте Call, необходимо вызвать функцию enqueue(запрос выполняется в фоновом потоке) и передать экземпляр retrofit2.Callback. Объект Callback, который вы передаете в enqueue(...), позволяет определить, что вы хотите сделать после того, как будет получен ответ на запрос
+        cbrApi.getValCurs().enqueue(object: Callback<ValCurs> {//async call //getValCurs возвращает объект Call, представляющий собой веб-запрос. Для выполнения веб-запроса, содержащегося в объекте Call, необходимо вызвать функцию enqueue(запрос выполняется в фоновом потоке) и передать экземпляр retrofit2.Callback. Объект Callback, который вы передаете в enqueue(...), позволяет определить, что вы хотите сделать после того, как будет получен ответ на запрос
         override fun onResponse(call: Call<ValCurs>, response: Response<ValCurs>) {//Передача Response Retrofit в onResponse() содержит в своем теле содержимое результата. Тип результата будет соответствовать типу возвращаемого объекта, который вы указали в соответствующей функции в интерфейсе API
-            if (response.isSuccessful()) {
+            if (response.isSuccessful) {
                 val valCurs: ValCurs? = response.body()
                 responseLiveData.value = valCurs?.valutes ?: mutableListOf()
 //              ((GlobalData)getApplicationContext()).setValCursData(response.body()); // save received data to the global class

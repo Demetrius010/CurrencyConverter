@@ -1,30 +1,29 @@
-package com.bignerdranch.android.currencyconverter
+package com.bignerdranch.android.currencyconverter.views
 
-import android.app.ActionBar
-import android.app.Activity
-import android.opengl.Visibility
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
-import androidx.appcompat.view.menu.ActionMenuItem
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bignerdranch.android.currencyconverter.BR.viewModel
+import com.bignerdranch.android.currencyconverter.MainActivity
+import com.bignerdranch.android.currencyconverter.R
 import com.bignerdranch.android.currencyconverter.databinding.ChangeCurrencyFragmentBinding
 import com.bignerdranch.android.currencyconverter.databinding.RecycerViewItemBinding
-import java.util.*
+import com.bignerdranch.android.currencyconverter.models.DataRepository
+import com.bignerdranch.android.currencyconverter.models.Valute
+import com.bignerdranch.android.currencyconverter.viewmodels.ChangeCurrencyViewModel
 
 private const val TAG = "ChangeCurrencyFragment"
 
 class ChangeCurrencyFragment : Fragment() {
-    private val dataRepository = DataRepository.get()// ссылка на репозиторий
-    private var newValute: Valute? = dataRepository.oldValute
+    private val changeCurrencyViewModel: ChangeCurrencyViewModel by lazy{
+        ViewModelProvider(this, defaultViewModelProviderFactory).get(ChangeCurrencyViewModel::class.java)
+    }
+    private var newValute: Valute? = null //= changeCurrencyViewModel.oldValue
     private lateinit var changeCurrencyRecyclerView: RecyclerView//RecyclerView является подклассом ViewGroup. Он отображает список дочерних объектов View, называемых представлениями элементов. Это один объект из списка данных представления — утилизатор
     private var currencyAdapter: CurrencyAdapter? = null
     private var actionBar: androidx.appcompat.app.ActionBar? = null
@@ -35,6 +34,8 @@ class ChangeCurrencyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        newValute = changeCurrencyViewModel.oldValue
+
         setHasOptionsMenu(true)//сообщаем FragmentManager, что экземпляр ChangeCurrencyFragment должен получать обратные вызовы меню.//FragmentManager отвечает за вызов Fragment.onCreateOptionsMenu(Menu,MenuInflater) при получении activity обратного вызова onCreateOptionsMenu(...) от ОС. Вы должны явно указать FragmentManager, что фрагмент должен получить вызов onCreateOptionsMenu(...). Для этого вызывается следующая функция Fragment: setHasOptionsMenu(hasMenu: Boolean)
         actionBar = (activity as MainActivity).supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -53,7 +54,7 @@ class ChangeCurrencyFragment : Fragment() {
             }
             R.id.saveMenuBtn ->{// on save button
                 //saving the value for the selected currency
-                dataRepository.newValute = newValute
+                changeCurrencyViewModel.saveNewValue(newValute)//dataRepository.newValute = newValute
                 activity?.onBackPressed()
             }
         }
@@ -67,7 +68,7 @@ class ChangeCurrencyFragment : Fragment() {
         DataBindingUtil.inflate(inflater, R.layout.change_currency_fragment, container, false)
             binding?.changeCurrencyRecyclerView?.apply {////Мы использовали привязку данных для настройки recycler view.
             layoutManager = LinearLayoutManager(context)//RecyclerView не отображает элементы на самом экране. Он передает эту задачу объекту LayoutManager. LayoutManager располагает каждый элемент, а также определяет, как работает прокрутка.  Вы используете LinearLayoutManager, которая будет позиционировать элементы в списке по вертикали.
-            adapter = CurrencyAdapter(dataRepository.currencyData)
+            adapter = CurrencyAdapter(changeCurrencyViewModel.currencyData)
         }
 
         return binding?.root

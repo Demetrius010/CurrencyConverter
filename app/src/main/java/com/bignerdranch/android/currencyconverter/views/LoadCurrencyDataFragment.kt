@@ -1,6 +1,5 @@
-package com.bignerdranch.android.currencyconverter
+package com.bignerdranch.android.currencyconverter.views
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +12,13 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bignerdranch.android.currencyconverter.MainActivity
+import com.bignerdranch.android.currencyconverter.R
+import com.bignerdranch.android.currencyconverter.models.DataRepository
+import com.bignerdranch.android.currencyconverter.viewmodels.LoadCurrencyDataViewModel
 
 private const val TAG = "LoadCurrencyDataFragment"
-
+//TODO: 3 добавить navigation
 class LoadCurrencyDataFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var refreshImgView: ImageView
@@ -24,7 +27,6 @@ class LoadCurrencyDataFragment : Fragment() {
         //ViewModelProviders.of(this).get(CurrencyConverterViewModel::class.java)//вызов ViewModelProviders.of(this) создает и возвращает ViewModelProvider, связанный с activity (в данном случае наверное с фрагментом). ViewModelProvider, в свою очередь, передает activity экземпляр ViewModel. ViewModelProvider работает как реестр ViewModel. Когда activity запрашивает QurrencyConverterViewModel после изменения конфигурации, экземпляр, который был создан изначально, возвращается.
         ViewModelProvider(this, defaultViewModelProviderFactory).get(LoadCurrencyDataViewModel::class.java)
     }
-    private val dataRepository = DataRepository.get()// это лучше это убрать во viewModel и ссылаться на экз из viewModel
 
     companion object {
         fun newInstance() = LoadCurrencyDataFragment()
@@ -33,17 +35,16 @@ class LoadCurrencyDataFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //val currencyLifeData: LiveData<List<Valute>> //= CurrencyDataFetcher().fetchData()//Каждый раз при повороте устройства выполняется новый сетевой запрос Поскольку каждый раз при вращении фрагмент уничтожается и воссоздается заново
+        //val currencyLifeData: LiveData<List<Valute>> = CurrencyDataFetcher().fetchData()//Каждый раз при повороте устройства выполняется новый сетевой запрос Поскольку каждый раз при вращении фрагмент уничтожается и воссоздается заново
         //Вместо того чтобы выдавать новый веб-запрос каждый раз, когда происходит изменение конфигурации, нужно получить данные лишь раз при запуске и отображении фрагмента на экране. Тогда вы можете разрешить веб-запросу продолжить выполнение при изменении конфигурации путем кэширования результатов в памяти. Наконец, вы можете использовать результаты кэширования по мере их доступности, вместо того чтобы делать новый запрос. ViewModel — это как раз то, что поможет вам с этой задачей.
-//        currencyLifeData.observe(this, Observer { currencyItems ->
-       // Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()
+//        currencyLifeData.observe(this, Observer { currencyItems -> //Т.е. это надо переносить во ViewModel
 //            Log.d(TAG, "Response received: ${currencyItems.size}")
 //        })
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_load_currency_data, container, false)  // Inflate the layout for this fragment
+        // TODO: 2 сделать databinding
         progressBar = view.findViewById(R.id.progressBar)
         refreshImgView = view.findViewById(R.id.refreshImageView)
         progressBar.setVisibility(View.INVISIBLE)
@@ -52,26 +53,24 @@ class LoadCurrencyDataFragment : Fragment() {
         refreshImgView.setOnClickListener{
             refreshImgView.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
-            //Внедрение наблюдения в функцию onViewCreated(...) гарантирует, что виджеты пользовательского интерфейса и другие объекты будут к этому готовы. Это также гарантирует, что будет правильно обрабатываться сценарий уничтожения фрагмента. В этом сценарии при повторном присоединении фрагмента представление будет создано заново, и при создании в новое представление будет добавлено наблюдение за LiveData.
-            loadCurrencyDataViewModel.currencyLifeData.observe(viewLifecycleOwner, Observer {//Функция LiveData.observe(LifecycleOwner,Observer) используется для регистрации наблюдателя за экземпляром LiveData и связи наблюдения с жизненным циклом другого компонента. Второй параметр функции observe(...) — это реализация Observer. Этот объект отвечает за реакцию на новые данные из LiveData//Передача ViewLifecycleOwner в качестве параметра LifecycleOwner функции LiveData.observe(LifecycleOwner,Observer) гарантирует, что объект LiveData удалит наблюдателя при уничтожении представления фрагмента.
-                    currencyItems ->//
-                // Обновить данные, поддерживающие представление утилизатора
-                Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "Response received: ${currencyItems.size}")
-                dataRepository.currencyData = currencyItems
-                //callbacks?.onDataRecieved()
-                (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
+
+            loadCurrencyDataViewModel.startDataLoading().observe(viewLifecycleOwner, Observer {// теперь мы взаимодействуем с viewmodel, а не с моделью: просим начать загрузку данных и смотрим за флагом окончания загрузки
+                    Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()// как только данные загружены мы показываем тост и запускаем новый фрагмент
+                    (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
             })
+
+//            //Внедрение наблюдения в функцию onViewCreated(...) гарантирует, что виджеты пользовательского интерфейса и другие объекты будут к этому готовы. Это также гарантирует, что будет правильно обрабатываться сценарий уничтожения фрагмента. В этом сценарии при повторном присоединении фрагмента представление будет создано заново, и при создании в новое представление будет добавлено наблюдение за LiveData.
+//            loadCurrencyDataViewModel.currencyLifeData.observe(viewLifecycleOwner, Observer {//Функция LiveData.observe(LifecycleOwner,Observer) используется для регистрации наблюдателя за экземпляром LiveData и связи наблюдения с жизненным циклом другого компонента. Второй параметр функции observe(...) — это реализация Observer. Этот объект отвечает за реакцию на новые данные из LiveData//Передача ViewLifecycleOwner в качестве параметра LifecycleOwner функции LiveData.observe(LifecycleOwner,Observer) гарантирует, что объект LiveData удалит наблюдателя при уничтожении представления фрагмента.
+//                    currencyItems ->//
+//                // Обновить данные, поддерживающие представление утилизатора
+//                Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()
+//                Log.d(TAG, "Response received: ${currencyItems.size}")
+//                //dataRepository.currencyData = currencyItems
+//                //callbacks?.onDataRecieved()
+//                (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
+//            })
         }
 
-//        //Внедрение наблюдения в функцию onViewCreated(...) гарантирует, что виджеты пользовательского интерфейса и другие объекты будут к этому готовы. Это также гарантирует, что будет правильно обрабатываться сценарий уничтожения фрагмента. В этом сценарии при повторном присоединении фрагмента представление будет создано заново, и при создании в новое представление будет добавлено наблюдение за LiveData.
-//        currencyConverterViewModel.currencyLifeData?.observe(viewLifecycleOwner, Observer {//Функция LiveData.observe(LifecycleOwner,Observer) используется для регистрации наблюдателя за экземпляром LiveData и связи наблюдения с жизненным циклом другого компонента. Второй параметр функции observe(...) — это реализация Observer. Этот объект отвечает за реакцию на новые данные из LiveData//Передача ViewLifecycleOwner в качестве параметра LifecycleOwner функции LiveData.observe(LifecycleOwner,Observer) гарантирует, что объект LiveData удалит наблюдателя при уничтожении представления фрагмента.
-//                currencyItems ->//
-//            // Обновить данные, поддерживающие представление утилизатора
-//            Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show();
-//            Log.d(TAG, "Response received: ${currencyItems.size}")
-//            callbacks?.onDataRecieved()
-//        })
         return view
     }
 

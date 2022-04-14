@@ -1,7 +1,8 @@
-package com.bignerdranch.android.currencyconverter
+package com.bignerdranch.android.currencyconverter.views
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.bignerdranch.android.currencyconverter.models.Valute
 
 //Большая часть работы по форматированию данных, которая ранее выполнялась классами контроллеров, переходит к модели представления. Подключение виджетов к данным будет осуществляться непосредственно в файле макета с использованием привязки данных к модели представления. Контроллер (ваша activity или фрагмент) будет отвечать за такие операции, как инициализация привязки и модели представления и создание связи между ними.
 class ValuteItemViewModel : //Эта модель представления отвечает за принятие решений относительно того, как должны отображаться данные.

@@ -7,20 +7,18 @@ import androidx.fragment.app.Fragment
 import com.bignerdranch.android.currencyconverter.views.LoadCurrencyDataFragment
 
 class MainActivity : AppCompatActivity() {//LoadCurrencyDataFragment.Callbacks
-    override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-    Log.d("MainActivity", "MainActivity init")
-    //Почему фрагмент может уже находиться в списке? Вызов MainActivity.onCreate (Bundle?) может быть выполнен в ответ на воссоздание объекта MainActivity после его уничтожения из-за поворота устройства или освобождения памяти. При уничтожении activity ее экземпляр FragmentManager сохраняет список фрагментов. При воссоздании activity новый экземпляр FragmentManager загружает список и воссоздает хранящиеся в нем фрагменты, чтобы все работало как прежде.
-    val currentFragment =
-        supportFragmentManager.findFragmentById(R.id.fragment_container)//Доступ к менеджеру фрагментов осуществляется с помощью свойства supportFragmentManager.
-    if (currentFragment == null) {
-        val fragment =
-            LoadCurrencyDataFragment.newInstance()//CurrencyExchangeFragment.newInstance()
-        //Этот код создает и закрепляет транзакцию фрагмента. Транзакции фрагментов используются для добавления, удаления, присоединения, отсоединения и замены фрагментов в списке фрагментов
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit()
-    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        Log.d("MainActivity", "MainActivity init")
+    //Почему фрагмент может уже находиться в списке? Вызов MainActivity.onCreate (Bundle?) может быть выполнен в ответ на воссоздание объекта MainActivity после его уничтожения из-за поворота устройства или освобождения памяти. При уничтожении activity ее экземпляр FragmentManager сохраняет список фрагментов. При воссоздании activity новый экземпляр FragmentManager загружает список и воссоздает хранящиеся в нем фрагменты, чтобы все работало как прежде.
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)//Доступ к менеджеру фрагментов осуществляется с помощью свойства supportFragmentManager.
+        if (currentFragment == null) {
+            val fragment = LoadCurrencyDataFragment.newInstance()//CurrencyExchangeFragment.newInstance()
+            //Этот код создает и закрепляет транзакцию фрагмента. Транзакции фрагментов используются для добавления, удаления, присоединения, отсоединения и замены фрагментов в списке фрагментов
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit()
+        }
     }
 //    override fun onDataRecieved() {//обратный вызов из LoadCurrencyDataFragment
 //        val fragment = CurrencyExchangeFragment.newInstance()

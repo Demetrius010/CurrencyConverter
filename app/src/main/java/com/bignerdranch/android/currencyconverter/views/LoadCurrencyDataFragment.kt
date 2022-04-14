@@ -7,26 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bignerdranch.android.currencyconverter.MainActivity
-import com.bignerdranch.android.currencyconverter.R
-import com.bignerdranch.android.currencyconverter.models.DataRepository
+import com.bignerdranch.android.currencyconverter.databinding.FragmentLoadCurrencyDataBinding
 import com.bignerdranch.android.currencyconverter.viewmodels.LoadCurrencyDataViewModel
 
 private const val TAG = "LoadCurrencyDataFragment"
 //TODO: 3 добавить navigation
 class LoadCurrencyDataFragment : Fragment() {
-    private lateinit var progressBar: ProgressBar
-    private lateinit var refreshImgView: ImageView
-    private val loadCurrencyDataViewModel: LoadCurrencyDataViewModel by lazy {//Использование lazy допускает применение свойства quizViewModel как val, а не var. Это здорово, потому что вам нужно захватить и сохранить CurrencyConverterViewModel, лишь когда создается экземпляр activity, поэтому currencyConverterViewModel получает значение только один раз. Что еще более важно, использование lazy означает, что расчет и назначение currencyConverterViewModel не будет происходить, пока вы не запросите доступ к currencyConverterViewModel впервые. Это хорошо, потому что вы не можете безопасно получить доступ к ViewModel до выполнения Activity.onCreate(...).
+    //private lateinit var progressBar: ProgressBar
+    private val loadCurrencyDataViewModel: LoadCurrencyDataViewModel by lazy {//вы не можете безопасно получить доступ к ViewModel до выполнения Activity.onCreate(...).//Использование lazy допускает применение свойства viewModel как val, а не var. Это здорово, потому что вам нужно захватить и сохранить ViewModel, лишь когда создается экземпляр activity, поэтому свойство viewModel получает значение только один раз. Что еще более важно, использование lazy означает, что расчет и назначение currencyConverterViewModel не будет происходить, пока вы не запросите доступ к currencyConverterViewModel впервые. Это хорошо, потому что вы не можете безопасно получить доступ к ViewModel до выполнения Activity.onCreate(...).
         //Как вы можете помнить, при первом запросе ViewModel для данного владельца жизненного цикла создается новый экземпляр ViewModel. Когда LoadCurrencyDataFragment уничтожается и создается заново из-за изменения конфигурации, например вращения, существующий ViewModel сохраняется.
         //ViewModelProviders.of(this).get(CurrencyConverterViewModel::class.java)//вызов ViewModelProviders.of(this) создает и возвращает ViewModelProvider, связанный с activity (в данном случае наверное с фрагментом). ViewModelProvider, в свою очередь, передает activity экземпляр ViewModel. ViewModelProvider работает как реестр ViewModel. Когда activity запрашивает QurrencyConverterViewModel после изменения конфигурации, экземпляр, который был создан изначально, возвращается.
         ViewModelProvider(this, defaultViewModelProviderFactory).get(LoadCurrencyDataViewModel::class.java)
     }
+    private var _viewBinding: FragmentLoadCurrencyDataBinding? = null
+    private val viewBinding get() = _viewBinding!!// This property is only valid between onCreateView and onDestroyView.
 
     companion object {
         fun newInstance() = LoadCurrencyDataFragment()
@@ -34,6 +32,7 @@ class LoadCurrencyDataFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //bindingView = FragmentLoadCurrencyDataBinding.inflate(layoutInflater)
 
         //val currencyLifeData: LiveData<List<Valute>> = CurrencyDataFetcher().fetchData()//Каждый раз при повороте устройства выполняется новый сетевой запрос Поскольку каждый раз при вращении фрагмент уничтожается и воссоздается заново
         //Вместо того чтобы выдавать новый веб-запрос каждый раз, когда происходит изменение конфигурации, нужно получить данные лишь раз при запуске и отображении фрагмента на экране. Тогда вы можете разрешить веб-запросу продолжить выполнение при изменении конфигурации путем кэширования результатов в памяти. Наконец, вы можете использовать результаты кэширования по мере их доступности, вместо того чтобы делать новый запрос. ViewModel — это как раз то, что поможет вам с этой задачей.
@@ -43,20 +42,26 @@ class LoadCurrencyDataFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_load_currency_data, container, false)  // Inflate the layout for this fragment
-        // TODO: 2 сделать databinding
-        progressBar = view.findViewById(R.id.progressBar)
-        refreshImgView = view.findViewById(R.id.refreshImageView)
-        progressBar.setVisibility(View.INVISIBLE)
-        refreshImgView.setVisibility(View.VISIBLE)
+        //val view = inflater.inflate(R.layout.fragment_load_currency_data, container, false)  // Inflate the layout for this fragment
+        //progressBar = view.findViewById(R.id.progressBar)
+        _viewBinding = FragmentLoadCurrencyDataBinding.inflate(inflater, container, false)
+        return viewBinding.root
+        //return view
+    }
 
-        refreshImgView.setOnClickListener{
-            refreshImgView.visibility = View.INVISIBLE
-            progressBar.visibility = View.VISIBLE
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewBinding.progressBar.visibility = View.INVISIBLE // возможны NullPointerException если использовать ViewBinding in OnCreate,
+        viewBinding.refreshImageView.visibility = View.VISIBLE
 
+        viewBinding.refreshImageView.setOnClickListener{
+//            refreshImgView.visibility = View.INVISIBLE
+//            progressBar.visibility = View.VISIBLE
+            viewBinding.progressBar.visibility = View.VISIBLE
+            viewBinding.refreshImageView.visibility = View.INVISIBLE
             loadCurrencyDataViewModel.startDataLoading().observe(viewLifecycleOwner, Observer {// теперь мы взаимодействуем с viewmodel, а не с моделью: просим начать загрузку данных и смотрим за флагом окончания загрузки
-                    Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()// как только данные загружены мы показываем тост и запускаем новый фрагмент
-                    (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
+                Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()// как только данные загружены мы показываем тост и запускаем новый фрагмент
+                (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
             })
 
 //            //Внедрение наблюдения в функцию onViewCreated(...) гарантирует, что виджеты пользовательского интерфейса и другие объекты будут к этому готовы. Это также гарантирует, что будет правильно обрабатываться сценарий уничтожения фрагмента. В этом сценарии при повторном присоединении фрагмента представление будет создано заново, и при создании в новое представление будет добавлено наблюдение за LiveData.
@@ -70,8 +75,6 @@ class LoadCurrencyDataFragment : Fragment() {
 //                (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
 //            })
         }
-
-        return view
     }
 
 
@@ -112,6 +115,7 @@ class LoadCurrencyDataFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _viewBinding = null
         Log.d(TAG, "DestroyView")
     }
 

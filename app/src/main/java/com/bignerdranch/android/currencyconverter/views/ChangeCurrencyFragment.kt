@@ -23,9 +23,9 @@ class ChangeCurrencyFragment : Fragment() {
     private val changeCurrencyViewModel: ChangeCurrencyViewModel by lazy{
         ViewModelProvider(this, defaultViewModelProviderFactory).get(ChangeCurrencyViewModel::class.java)
     }
-    private var newValute: Valute? = null //= changeCurrencyViewModel.oldValue
-    private lateinit var changeCurrencyRecyclerView: RecyclerView//RecyclerView является подклассом ViewGroup. Он отображает список дочерних объектов View, называемых представлениями элементов. Это один объект из списка данных представления — утилизатор
-    private var currencyAdapter: CurrencyAdapter? = null
+    private var newValute: Valute? = null//= changeCurrencyViewModel.oldValue
+    //private lateinit var changeCurrencyRecyclerView: RecyclerView//RecyclerView является подклассом ViewGroup. Он отображает список дочерних объектов View, называемых представлениями элементов. Это один объект из списка данных представления — утилизатор
+    //private var currencyAdapter: CurrencyAdapter? = null
     private var actionBar: androidx.appcompat.app.ActionBar? = null
 
     companion object {
@@ -35,7 +35,6 @@ class ChangeCurrencyFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         newValute = changeCurrencyViewModel.oldValue
-
         setHasOptionsMenu(true)//сообщаем FragmentManager, что экземпляр ChangeCurrencyFragment должен получать обратные вызовы меню.//FragmentManager отвечает за вызов Fragment.onCreateOptionsMenu(Menu,MenuInflater) при получении activity обратного вызова onCreateOptionsMenu(...) от ОС. Вы должны явно указать FragmentManager, что фрагмент должен получить вызов onCreateOptionsMenu(...). Для этого вызывается следующая функция Fragment: setHasOptionsMenu(hasMenu: Boolean)
         actionBar = (activity as MainActivity).supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -62,10 +61,11 @@ class ChangeCurrencyFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding: ChangeCurrencyFragmentBinding? = // это класс привязки сгенерированный библиотекой привязки данных. вместо заполнения иерархии представлений с использованием setContentView(int) мы заполним экземпляр ChangeCurrencyFragmentBinding. ChangeCurrencyFragmentBinding сохраняет иерархию представлений в свойстве root. Кроме того, сохраняются именованные ссылки для всех представлений, помеченных в файле макета атрибутом android:id.
+            val binding: ChangeCurrencyFragmentBinding? =
+                DataBindingUtil.inflate(inflater, R.layout.change_currency_fragment, container, false)// это класс привязки сгенерированный библиотекой привязки данных. вместо заполнения иерархии представлений с использованием setContentView(int) мы заполним экземпляр ChangeCurrencyFragmentBinding. ChangeCurrencyFragmentBinding сохраняет иерархию представлений в свойстве root. Кроме того, сохраняются именованные ссылки для всех представлений, помеченных в файле макета атрибутом android:id.
            // Таким образом, класс ChangeCurrencyFragmentBinding сохраняет две ссылки: root для всего макета и recyclerView для RecyclerView. Конечно, в нашем макете только одно представление, поэтому обе ссылки указывают на одно представление: RecyclerView.
         //ДЛЯ ПРИВЯЗКИ К ACTIVITY:  DataBindingUtil.setContentView(activity as MainActivity, R.layout.change_currency_fragment)
-        DataBindingUtil.inflate(inflater, R.layout.change_currency_fragment, container, false)
+
             binding?.changeCurrencyRecyclerView?.apply {////Мы использовали привязку данных для настройки recycler view.
             layoutManager = LinearLayoutManager(context)//RecyclerView не отображает элементы на самом экране. Он передает эту задачу объекту LayoutManager. LayoutManager располагает каждый элемент, а также определяет, как работает прокрутка.  Вы используете LinearLayoutManager, которая будет позиционировать элементы в списке по вертикали.
             adapter = CurrencyAdapter(changeCurrencyViewModel.currencyData)

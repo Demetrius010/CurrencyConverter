@@ -46,6 +46,8 @@ class LoadCurrencyDataViewModel: ViewModel() { // ViewModel входит в со
     }
 
 
+
+
     override fun onCleared() {// вызывается непосредственно перед уничтожением ViewModel
         currencyLifeData.removeObserver(currencyDataFetcherObserver) // убираем наш Observer
         super.onCleared()

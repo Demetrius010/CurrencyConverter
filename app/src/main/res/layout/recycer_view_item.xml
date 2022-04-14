@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true" >
     <data><!--Блок разметки data определяет свойство viewModel для класса привязки (автоматически создаваемый класс для этого макета - RecycerViewItemBinding) вместе с геттером и сеттером. В классе привязки свойство viewModel может использоваться в выражениях привязки-->
         <variable
             name="viewModel"

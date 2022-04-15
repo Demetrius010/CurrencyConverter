@@ -11,12 +11,15 @@
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/drawable/ic_launcher_money.xml" value="0.109" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/drawable/ic_launcher_money_background.xml" value="0.109" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/drawable/ic_launcher_money_foreground.xml" value="0.109" />
+        <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/drawable/ic_launcher_money_foreground_black.xml" value="0.132" />
+        <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/drawable/ic_save.xml" value="0.1" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/drawable/ic_swap_horiz.xml" value="0.348" />
-        <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/layout/activity_main.xml" value="0.21422101449275363" />
+        <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/layout/change_currency_fragment.xml" value="0.3546875" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/layout/fragment_currency_exchange.xml" value="0.25" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/layout/fragment_load_currency_data.xml" value="0.17198581560283688" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/layout/recycer_view_item.xml" value="0.1702127659574468" />
+        <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.3541666666666667" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/menu/fragment_change_currency.xml" value="0.17760416666666667" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.109" />
         <entry key="..\:/Users/Demet/AndroidStudioProjects/CurrencyConverter/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.109" />

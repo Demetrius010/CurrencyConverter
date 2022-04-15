@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/loadCurrencyDataFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_refresh"
+        android:title="Refresh"/>
+    <item
+        android:id="@+id/currencyExchangeFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_money_foreground_black"
+        android:title="Exchange"/>
+    <item
+        android:id="@+id/changeCurrencyFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_swap_horiz"
+        android:title="Select"/>
+</menu>

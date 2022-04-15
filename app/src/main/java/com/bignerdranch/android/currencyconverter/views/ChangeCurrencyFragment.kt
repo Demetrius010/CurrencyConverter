@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.currencyconverter.MainActivity
@@ -40,6 +41,7 @@ class ChangeCurrencyFragment : Fragment() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_change_currency, menu)//Мы вызываем функцию MenuInflater.inflate(int,Menu) и передаем идентификатор ресурса своего файла меню. Вызов заполняет экземпляр Menu командами, определенными в файле
@@ -49,12 +51,14 @@ class ChangeCurrencyFragment : Fragment() {
         Log.d("TAG", item.itemId.toString() + " = ${activity}")
         when(item.itemId){
             android.R.id.home->{//on back button
-                activity?.onBackPressed()
+                findNavController().navigateUp()
+                //activity?.onBackPressed()
             }
             R.id.saveMenuBtn ->{// on save button
                 //saving the value for the selected currency
                 changeCurrencyViewModel.saveNewValue(newValute)//dataRepository.newValute = newValute
-                activity?.onBackPressed()
+                //activity?.onBackPressed()
+                findNavController().popBackStack()
             }
         }
         return super.onOptionsItemSelected(item)

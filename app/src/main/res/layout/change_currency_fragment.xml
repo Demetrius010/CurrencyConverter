@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"><!--Чтобы использовать привязку данных в файле макета, необходимо создать файл макета привязки данных. Для этого весь XML-файл оборачивается в тег <layout>.-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true" ><!--этот файл будет игнорировать View Binding-->
+    <!--Чтобы использовать привязку данных в файле макета, необходимо создать файл макета привязки данных. Для этого весь XML-файл оборачивается в тег <layout>.-->
     <!--Тег <layout> сигнализирует средствам привязки данных, что они должны обработать файл макета. После завершения обработки будет сгенерирован класс привязки-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/changeCurrencyRecyclerView"
         android:layout_width="match_parent"

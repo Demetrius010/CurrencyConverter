@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.R
+import androidx.navigation.fragment.findNavController
 import com.bignerdranch.android.currencyconverter.MainActivity
 import com.bignerdranch.android.currencyconverter.databinding.FragmentLoadCurrencyDataBinding
 import com.bignerdranch.android.currencyconverter.viewmodels.LoadCurrencyDataViewModel
@@ -61,7 +63,8 @@ class LoadCurrencyDataFragment : Fragment() {
             viewBinding.refreshImageView.visibility = View.INVISIBLE
             loadCurrencyDataViewModel.startDataLoading().observe(viewLifecycleOwner, Observer {// теперь мы взаимодействуем с viewmodel, а не с моделью: просим начать загрузку данных и смотрим за флагом окончания загрузки
                 Toast.makeText(this.context, "Курсы валют обновлены", Toast.LENGTH_SHORT).show()// как только данные загружены мы показываем тост и запускаем новый фрагмент
-                (activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
+            findNavController().navigate(com.bignerdranch.android.currencyconverter.R.id.action_loadCurrencyDataFragment_to_currencyExchangeFragment)
+            //(activity as MainActivity).loadNewFragment(CurrencyExchangeFragment.newInstance())
             })
 
 //            //Внедрение наблюдения в функцию onViewCreated(...) гарантирует, что виджеты пользовательского интерфейса и другие объекты будут к этому готовы. Это также гарантирует, что будет правильно обрабатываться сценарий уничтожения фрагмента. В этом сценарии при повторном присоединении фрагмента представление будет создано заново, и при создании в новое представление будет добавлено наблюдение за LiveData.

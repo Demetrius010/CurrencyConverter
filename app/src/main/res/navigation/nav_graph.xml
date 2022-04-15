@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loadCurrencyDataFragment">
+
+    <fragment
+        android:id="@+id/loadCurrencyDataFragment"
+        android:name="com.bignerdranch.android.currencyconverter.views.LoadCurrencyDataFragment"
+        android:label="LoadCurrencyDataFragment"
+        tools:layout="@layout/fragment_load_currency_data">
+        <action
+            android:id="@+id/action_loadCurrencyDataFragment_to_currencyExchangeFragment"
+            app:destination="@id/currencyExchangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currencyExchangeFragment"
+        android:name="com.bignerdranch.android.currencyconverter.views.CurrencyExchangeFragment"
+        android:label="CurrencyExchangeFragment"
+        tools:layout="@layout/fragment_currency_exchange">
+        <action
+            android:id="@+id/action_currencyExchangeFragment_to_changeCurrencyFragment"
+            app:destination="@id/changeCurrencyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeCurrencyFragment"
+        android:name="com.bignerdranch.android.currencyconverter.views.ChangeCurrencyFragment"
+        android:label="ChangeCurrencyFragment"
+        tools:layout="@layout/change_currency_fragment"/>
+</navigation>

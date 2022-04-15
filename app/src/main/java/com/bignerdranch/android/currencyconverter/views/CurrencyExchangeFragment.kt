@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bignerdranch.android.currencyconverter.MainActivity
+import com.bignerdranch.android.currencyconverter.R
 import com.bignerdranch.android.currencyconverter.databinding.FragmentCurrencyExchangeBinding
 import com.bignerdranch.android.currencyconverter.viewmodels.CurrencyExchangeViewModel
 import java.util.*
@@ -59,11 +61,13 @@ class CurrencyExchangeFragment : Fragment(){
         }
         vb.tvCharCodeLeft.setOnClickListener({
             currencyExchangeViewModel.setChangingValute(currencyExchangeViewModel.firstCur, true)//save the currency that needs to be changed //set a flag variable pointing to the variable that will be changed
-            (activity as MainActivity).loadNewFragment(ChangeCurrencyFragment.newInstance())
+            findNavController().navigate(R.id.action_currencyExchangeFragment_to_changeCurrencyFragment)
+            //(activity as MainActivity).loadNewFragment(ChangeCurrencyFragment.newInstance())
         })
         vb.tvCharCodeRight.setOnClickListener({
             currencyExchangeViewModel.setChangingValute(currencyExchangeViewModel.secondCur, false)
-            (activity as MainActivity).loadNewFragment(ChangeCurrencyFragment.newInstance())
+            findNavController().navigate(R.id.action_currencyExchangeFragment_to_changeCurrencyFragment)
+            //(activity as MainActivity).loadNewFragment(ChangeCurrencyFragment.newInstance())
         })
     }
     override fun onStart() {

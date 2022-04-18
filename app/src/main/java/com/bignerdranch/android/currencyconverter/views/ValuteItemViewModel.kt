@@ -34,5 +34,18 @@ class ValuteItemViewModel : //Эта модель представления о�
     @get: Bindable
     val currencyCode: String?
         get() = valute?.charCode
-}
 //BR.title — это константа, которая генерируется библиотекой привязки данных. Имя класса BR — это сокращение от binding resource — «связующий ресурс». Каждое свойство, которое вы аннотируете с помощью @Bindable, дает результат в сгенерированной константе BR с тем же именем
+
+
+    lateinit var simpleClass: SimpleClass
+    fun callSimpl() {
+        val intval = simpleClass.nothing(true)
+    }
+
+    var valFunB = "134"
+    var valFunA = 123
+    fun callFunB(){
+        valFunB = simpleClass.funB()
+        //valFunA = simpleClass.funA()
+    }
+}

@@ -7,7 +7,7 @@ import com.bignerdranch.android.currencyconverter.models.Valute
 import kotlin.random.Random
 
 class CurrencyExchangeViewModel : ViewModel() {
-    private val dataRepository = DataRepository.get()
+    val dataRepository = DataRepository.get() // СДЕЛАЛ ПАБЛИК ЧТОБ В TestChangeCurrencyFragment можно было подменять репозиторий
     val isLeft
         get() = dataRepository.isLeft
     var firstCur: Valute

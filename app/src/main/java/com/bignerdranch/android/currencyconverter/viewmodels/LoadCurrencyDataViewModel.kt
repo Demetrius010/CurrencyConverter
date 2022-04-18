@@ -1,17 +1,13 @@
 package com.bignerdranch.android.currencyconverter.viewmodels
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.bignerdranch.android.currencyconverter.MainActivity
 import com.bignerdranch.android.currencyconverter.models.CurrencyDataFetcher
 import com.bignerdranch.android.currencyconverter.models.DataRepository
 import com.bignerdranch.android.currencyconverter.models.Valute
-import com.bignerdranch.android.currencyconverter.views.CurrencyExchangeFragment
 
 private const val TAG = "CurrencyConverterViewModel"
 /*ЭТО ViewModel НА ОСНОВЕ КЛАССА ViewModel который входит в состав пакета androidx.lifecycle,
@@ -44,9 +40,6 @@ class LoadCurrencyDataViewModel: ViewModel() { // ViewModel входит в со
         currencyLifeData.observeForever(currencyDataFetcherObserver)//вешаем наш Observer
         return dataUpdatedFlag
     }
-
-
-
 
     override fun onCleared() {// вызывается непосредственно перед уничтожением ViewModel
         currencyLifeData.removeObserver(currencyDataFetcherObserver) // убираем наш Observer

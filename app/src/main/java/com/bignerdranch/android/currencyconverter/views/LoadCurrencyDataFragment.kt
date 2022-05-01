@@ -17,7 +17,6 @@ import com.bignerdranch.android.currencyconverter.databinding.FragmentLoadCurren
 import com.bignerdranch.android.currencyconverter.viewmodels.LoadCurrencyDataViewModel
 
 private const val TAG = "LoadCurrencyDataFragment"
-//TODO: 3 добавить navigation
 class LoadCurrencyDataFragment : Fragment() {
     //private lateinit var progressBar: ProgressBar
     private val loadCurrencyDataViewModel: LoadCurrencyDataViewModel by lazy {//вы не можете безопасно получить доступ к ViewModel до выполнения Activity.onCreate(...).//Использование lazy допускает применение свойства viewModel как val, а не var. Это здорово, потому что вам нужно захватить и сохранить ViewModel, лишь когда создается экземпляр activity, поэтому свойство viewModel получает значение только один раз. Что еще более важно, использование lazy означает, что расчет и назначение currencyConverterViewModel не будет происходить, пока вы не запросите доступ к currencyConverterViewModel впервые. Это хорошо, потому что вы не можете безопасно получить доступ к ViewModel до выполнения Activity.onCreate(...).

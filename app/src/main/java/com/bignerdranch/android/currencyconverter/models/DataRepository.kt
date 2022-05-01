@@ -23,7 +23,7 @@ class DataRepository private constructor(context: Context){//это одноэл
         }
     }
 
-    var currencyData: List<Valute> = listOf()//TODO: ПРОВЕРЬ КАК В КОТЛИН РАБОТАЮТ МЕТОДЫ ДОСТУПА. currencyData должно только предоставлять доступ ТОЛЬКО НА ЧТЕНИЕ!
+    var currencyData: List<Valute> = listOf()//ПРОВЕРЬ КАК В КОТЛИН РАБОТАЮТ МЕТОДЫ ДОСТУПА. currencyData должно только предоставлять доступ ТОЛЬКО НА ЧТЕНИЕ! доступ на чтение это val переменные, или var с явным оперделением методов доступа, где set будет private
     var oldValute: Valute? = null
     var newValute: Valute? = null
     var isLeft: Boolean? = null

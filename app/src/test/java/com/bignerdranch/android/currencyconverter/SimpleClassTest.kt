@@ -23,6 +23,8 @@ class SimpleClassTest {
     @Test
     fun sum() {
         assertEquals(7, mSimpl.sum(3,4))
+
+        assertThat(mSimpl, Is.`is`(hasProperty("result")))
     }
 
     @Test
@@ -34,6 +36,9 @@ class SimpleClassTest {
     @Test
     fun container(){
         val container = listOf(1, 22, 43, 45)
+        //ПРОХОД В ЦИКЛЕ!!!
+        assertThat(container, everyItem(Is.`is`(greaterThan(0))))
+
         //assertThat(container, Is.`is`(not(contains(22))))//не работает
         assertThat(listOf("foo", "bar"), contains("foo", "bar"))
         //assertThat(3, not(2))
@@ -46,5 +51,6 @@ class SimpleClassTest {
 
     @After
     fun tearDown() {
+        //mSimpl = null
     }
 }

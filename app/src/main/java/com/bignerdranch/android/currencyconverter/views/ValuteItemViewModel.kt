@@ -39,7 +39,7 @@ class ValuteItemViewModel : //Эта модель представления о�
 
     lateinit var simpleClass: SimpleClass
     fun callSimpl() {
-        val intval = simpleClass.nothing(true)
+        val intval = simpleClass.nothingFun(true)
     }
 
     var valFunB = "134"

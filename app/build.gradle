@@ -39,15 +39,15 @@ android {
 //    testOptions{
 //        unitTests.returnDefaultValues = true
 //    }
-//    productFlavors{Android Studio поддерживает два типа сборки приложения – debug и release . Первый обычно предназначается для разработки, второй для публикации в Google Play.
-//        А что, если нам нужно больше? Самый популярный пример – это платная и бесплатная версии приложения. И такая возможность есть – это product flavors
+//    productFlavors{//Android Studio поддерживает два типа сборки приложения – debug и release . Первый обычно предназначается для разработки, второй для публикации в Google Play.
+//        //А что, если нам нужно больше? Самый популярный пример – это платная и бесплатная версии приложения. И такая возможность есть – это product flavors
 //        myprod{
-//            //applicationId "com.bignerdranch.android.currencyconverter"
-//            //versionName "1.0"
+//            applicationId "com.bignerdranch.android.currencyconverter"
+//            versionName "1.0"
 //        }
 //        mytest{
-//            //applicationId "com.bignerdranch.android.currencyconverter.test"
-//            //versionName "1.0"
+//            applicationId "com.bignerdranch.android.currencyconverter.test"
+//            versionName "1.0"
 //        }
 //    }
 }

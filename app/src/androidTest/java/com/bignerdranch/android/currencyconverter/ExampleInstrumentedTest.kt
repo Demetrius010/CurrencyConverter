@@ -27,7 +27,7 @@ import org.junit.Rule
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4::class)//перед нами тест Android, который должен работать с activity и другими средствами времени выполнения Android
 class ExampleInstrumentedTest {
 
     @get:Rule//сообщает JUnit о необходимости запускать экземпляр MainActivity перед запуском каждого теста.
@@ -39,8 +39,10 @@ class ExampleInstrumentedTest {
 
    @Test
    fun shownCharCode(){
-       onView(withId(R.id.refreshImageView)).perform(click())//выполнить клик в perform можно перечислить множество действий для заданного view
+       onView(withId(R.id.refreshImageView)).perform(click())//выполнить клик. Когда вы взаимодействуете с представлением, Espresso дождется бездействия приложения, перед тем как продолжать тестирование. В Espresso существуют встроенные средства проверки завершения обновлений пользовательского интерфейса, но если вам потребуется более продолжительное ожидание — используйте подкласс IdlingResource для передачи Espresso сигнала о том, что приложение еще не завершило свои операции.
+      // в perform можно перечислить множество действий для заданного view
        //onView(withText("AUD")).check(matches(isDisplayed()))строка onView(withText("TEXT")) находит представление с текстом TEXT для выполнения тестовой операции. Вызов check(matches(isDisplayed())) проверяет, что такое представление существует.
+       //onView(withText("AUD")).check(matches(withText("AUD")))
    }
 
 //    @Test

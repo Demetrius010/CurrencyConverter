@@ -25,7 +25,7 @@ class ValuteItemViewModelTest {
     private lateinit var subject: ValuteItemViewModel // даем имя subject т.к. это наш тестируемый объект
     private lateinit var simpleClass: SimpleClass
 
-    @Before
+    @Before//Код, содержащийся в функции с пометкой @Before, будет выполнен один раз перед выполнением каждого теста.
     fun setUp() {
         valute = Valute(id="123", numCode=4, charCode = "RUB", nominal = 1, name = "Российский рубль", value = "81.25")
         subject = ValuteItemViewModel()
@@ -43,7 +43,8 @@ class ValuteItemViewModelTest {
     fun funCall_nothing_inSimpleClassTEST() {/*ТУТ С Mockito ТЕСТИРУЕТСЯ НЕ ПРОСТО ВЫЗОВ ФУНКЦИИ ИЗ КЛАССА, А ВЫЗОВ ФУНКЦИИ ИЗ ОБЪЕКТА ПЕРЕДАННОГО В КЛАСС*/
         subject.simpleClass = simpleClass
         subject.callSimpl()
-        verify(simpleClass).nothing(true)//Все объекты Mockito отслеживают, какие из их функций вызывались и какие параметры передавались при каждом вызове. Функция verify(Object) объекта Mockito проверяет, вызывались ли эти функции так, как вы ожидали.
+        verify(simpleClass).nothingFun(true)//Все объекты Mockito отслеживают, какие из их функций вызывались и какие параметры передавались при каждом вызове. Функция verify(Object) объекта Mockito проверяет, вызывались ли эти функции так, как вы ожидали.
+        //Вызов verify(simpleClass) означает: «Я хочу проверить, что для simpleClass была вызвана функция». Следующий вызов функции интерпретируется так: «Проверить, что эта функция был вызвана именно так».
     }
 
     @Test
@@ -53,6 +54,7 @@ class ValuteItemViewModelTest {
         verify(simpleClass).funB() // проверяем вызвалась ли функция
         assertThat(subject.valFunB, `is`("xyz"))// в subject.valFunB записывается заданное нами значение (реальная функция возвращает  "abc", а без задания значения мок функция возращает null для стринг, 0 для инт)
 
+        /*СКОЛЬКО РАЗ ВЫЗЫВАЛСЯ МЕТОД*/
         verify(simpleClass, times(0)).funA()// проверяем вызвалась ли функция 0 РАЗ
         //verifyNoMoreInteractions(simpleClass)//проверяем что у mock-объекта не был вызван ни один метод
     }
@@ -64,7 +66,7 @@ class ValuteItemViewModelTest {
 
     @Test/*ПРОВЕРКА НА ПРАВИЛЬНОСТЬ УСТАНОВКИ ЗНАЧЕНИЙ ПОЛЯМ КЛАССА */
     fun exposesValuteNameAsCurrencyName(){
-        assertThat(subject.currencyName, Is.`is`(valute.name))//Положим, что свойство currencyName субъекта будет тем же, что и имя valute»
+        assertThat(subject.currencyName, Is.`is`(valute.name))//Положим, что свойство currencyName субъекта будет тем же, что и имя valute. Если две функции возвращают разные значения, тест не пройдет.
     }
 
     @Test/*ПРОВЕРКА НА ПРАВИЛЬНОСТЬ УСТАНОВКИ ЗНАЧЕНИЙ ПОЛЯМ КЛАССА */

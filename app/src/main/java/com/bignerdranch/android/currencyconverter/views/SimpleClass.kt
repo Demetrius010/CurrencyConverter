@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SimpleClass: Application()  {
-    fun nothing(bool: Boolean):LiveData<String>{
+    var result = 0
+    fun nothingFun(bool: Boolean):LiveData<String>{
         return MutableLiveData()
     }
 
     fun sum(a: Int, b: Int): Int{
-        return a+b
+        result = a+b
+        return result
     }
 
     fun funA():Int{

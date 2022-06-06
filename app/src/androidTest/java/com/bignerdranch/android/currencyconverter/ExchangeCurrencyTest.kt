@@ -72,7 +72,7 @@ class ExchangeCurrencyTest {
 
 Espresso – это очень умный фреймворк, который грамотно проверяет все элементы, при этом он может ждать некоторое время, пока выполнится определенное условие, что очень удобно, так как не всегда элементы на экране появляются мгновенно.
 
-1. ПРОВЕРКА ОТКРЫТИЯ АКТИВИТИ ЧЕРЕЗ ИНТЕНТ (см. пример в doc)
+1. ПРОВЕРКА ОТКРЫТИЯ АКТИВИТИ ЧЕРЕЗ ИНТЕНТ (см. пример в doc) androidTestCompile ‘com.android.support.test.espresso:espresso-intents:2.2.2’
 @Before
 public void setUp() throws Exception {
    Intents.init();
